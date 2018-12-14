@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/camera_like_wx.iml" filepath="$PROJECT_DIR$/camera_like_wx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/camera_like_wx_android.iml" filepath="$PROJECT_DIR$/android/camera_like_wx_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/example/android/camera_like_wx_example_android.iml" filepath="$PROJECT_DIR$/example/android/camera_like_wx_example_android.iml" />
+    </modules>
+  </component>
+</project>
