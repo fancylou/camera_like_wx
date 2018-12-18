@@ -6,6 +6,8 @@ import 'package:camera_like_wx/camera_like_wx.dart';
 
 import 'package:camera/camera.dart';
 
+import 'circle_record_button.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -115,15 +117,8 @@ class _WxCameraBaseState extends State<WxCameraBaseWidget> {
               flex: 1,),
               Expanded(child: new Align(
                 alignment: Alignment.center,
-                child: new Material(
-                  shadowColor: Colors.white30,
-                  elevation: 5.0,
-                  borderRadius: BorderRadius.circular(42),
-                  child: Container(
-                    color: Colors.white,
-                    width: 84,
-                    height: 84,
-                  ),
+                child: new CircleRecordButton(
+                  radius: 42,   
                 ),
               ),
               flex: 1,),
