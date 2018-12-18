@@ -4,6 +4,8 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:camera_like_wx/camera_like_wx.dart';
 
+import 'package:camera/camera.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -46,6 +48,14 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Plugin example app'),
+          actions: <Widget>[
+            new Builder(builder: (BuildContext context){
+              return IconButton(
+                icon: const Icon(Icons.camera), 
+                onPressed: () => this._go2Camera(context)
+                );
+            })
+          ],
         ),
         body: Center(
           child: Text('Running on: $_platformVersion\n'),
@@ -53,4 +63,134 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
+
+  void _go2Camera(BuildContext context) {
+    debugPrint('跳转。。。。。');
+    Navigator.push(context, MaterialPageRoute(
+        builder: (context) => WxCameraBaseWidget()
+    ));
+  }
+}
+
+
+class WxCameraBaseWidget extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _WxCameraBaseState();
+  }
+
+}
+
+class _WxCameraBaseState extends State<WxCameraBaseWidget> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.teal,
+      margin: EdgeInsets.fromLTRB(10, 44, 10, 44),
+      child: new Column(
+
+        children: <Widget>[
+          Expanded(child: new Container(
+            margin: EdgeInsets.all(10.0),
+            padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+            alignment: Alignment.centerRight,
+            child:  new Icon(Icons.switch_camera, color: Colors.white, size: 48),
+
+          ),
+          flex: 1,),
+          Expanded(child: new Container(
+            margin: EdgeInsets.all(10.0),
+            child: new Container(
+
+            ),
+          ),
+          flex: 3,),
+          Expanded(child: new Row(
+            children: <Widget>[
+              Expanded(child: new Align(
+                alignment: Alignment.center,
+                child: new Icon(Icons.keyboard_arrow_down, color: Colors.white, size: 48),
+              ),
+              flex: 1,),
+              Expanded(child: new Align(
+                alignment: Alignment.center,
+                child: new Material(
+                  shadowColor: Colors.white30,
+                  elevation: 5.0,
+                  borderRadius: BorderRadius.circular(42),
+                  child: Container(
+                    color: Colors.white,
+                    width: 84,
+                    height: 84,
+                  ),
+                ),
+              ),
+              flex: 1,),
+              Expanded(child: new Container(
+                color: Colors.transparent,
+              ),
+              flex: 1,)
+            ],
+          ),
+          flex: 1,)
+         
+        ],
+      ),
+    );
+  }
+
+}
+
+
+// 第二页
+class CameraWidget extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _CameraState();
+  } 
+
+}
+
+class _CameraState extends State<CameraWidget> {
+  List<CameraDescription> cameras;
+  CameraController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    initCamera();
+  }
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (controller == null || !controller.value.isInitialized) {
+      return Container();
+    }
+    return AspectRatio(
+        aspectRatio:
+        controller.value.aspectRatio,
+        child: CameraPreview(controller));
+  }
+
+  Future<void> initCamera() async {
+      cameras = await availableCameras();
+      if(cameras !=null && cameras.length > 0) {
+        controller = CameraController(cameras[0], ResolutionPreset.medium);
+        controller.initialize().then((_) {
+          if (!mounted) {
+            return;
+          }
+          setState(() {});
+        });
+      }else {
+        debugPrint("没有摄像头。。。。。。。。");
+      }
+      
+  }
+
 }
