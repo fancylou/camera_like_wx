@@ -87,11 +87,9 @@ class _WxCameraBaseState extends State<WxCameraBaseWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.teal,
-      margin: EdgeInsets.fromLTRB(10, 44, 10, 44),
-      child: new Column(
-
+    return Scaffold(
+      backgroundColor: Colors.teal,
+      body: new Column(
         children: <Widget>[
           Expanded(child: new Container(
             margin: EdgeInsets.all(10.0),
@@ -112,7 +110,8 @@ class _WxCameraBaseState extends State<WxCameraBaseWidget> {
             children: <Widget>[
               Expanded(child: new Align(
                 alignment: Alignment.center,
-                child: new Icon(Icons.keyboard_arrow_down, color: Colors.white, size: 48),
+                child: new IconButton(icon: Icon(Icons.keyboard_arrow_down, color: Colors.white, size: 48),
+                onPressed: _close,),
               ),
               flex: 1,),
               Expanded(child: new Align(
@@ -134,6 +133,12 @@ class _WxCameraBaseState extends State<WxCameraBaseWidget> {
       ),
     );
   }
+
+  void _close() {
+    Navigator.pop(context);
+  }
+
+
 
 }
 
