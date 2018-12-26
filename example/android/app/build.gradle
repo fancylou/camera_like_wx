@@ -45,6 +45,13 @@ android {
         versionName flutterVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    
+    android {
+        compileOptions {
+            sourceCompatibility 1.8
+            targetCompatibility 1.8
+        }
+    }
 
     buildTypes {
         release {

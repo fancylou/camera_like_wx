@@ -10,12 +10,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  camera: ^0.2.6
+  video_player: ^0.8.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
+  assets:
+    - assets/test.jpg
   # This section identifies this Flutter project as a plugin project.
   # The androidPackage and pluginClass identifiers should not ordinarily
   # be modified. They are used by the tooling to maintain consistency when

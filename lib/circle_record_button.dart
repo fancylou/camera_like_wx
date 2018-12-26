@@ -90,6 +90,7 @@ class _CircleRecordButtonState extends State<CircleRecordButton>
       onTapDown: _tapDown,
       onTapUp: _tapUp,
       onTapCancel: _tapCancel,
+      onTap: _tap,
       child: CustomPaint(
         key: paintKey,
         size: size,
@@ -116,13 +117,17 @@ class _CircleRecordButtonState extends State<CircleRecordButton>
     //重置按钮 会同时执行stop
     transAc.value = 0;
     ac.value = 0;
+    if (widget.controller != null) {
+      widget.controller(RecordState.End);
+    }
+  }
+
+  void _tap() {
+    debugPrint('_tap.................');
   }
 
   void _tapCancel() {
     debugPrint('_tapCancel.................');
-    if (widget.controller != null) {
-      widget.controller(RecordState.End);
-    }
   }
 }
 
