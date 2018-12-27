@@ -10,7 +10,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  camera: ^0.2.6
+  # camera: ^0.2.6
+  camera:
+    path: /Users/fancy/Flutter/camera-0.2.6/
   video_player: ^0.8.0
   path_provider: ^0.4.1
   fluttertoast: ^2.2.2

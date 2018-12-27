@@ -21,12 +21,15 @@ class _WxTakePhotoPageState extends State<WxTakePhotoPage> {
   
   @override
   Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
     return new Flow(
       delegate: new CameraFlowDelegate(),
       children: <Widget>[
         new Container(
-          child: new Image.file(new File(widget.photoPath),
-          fit: BoxFit.fill),
+          width: width,
+          height: height,
+          child: new Image.file(new File(widget.photoPath), fit: BoxFit.fill),
         ),
         new Align(
           alignment: Alignment.bottomCenter,
