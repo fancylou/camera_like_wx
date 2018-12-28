@@ -90,10 +90,20 @@ class _WxCameraPageState extends State<WxCameraPage> {
                 margin: EdgeInsets.all(10.0),
                 child: new Container(),
               ),
-              flex: 3,
+              flex: 2,
             ),
             Expanded(
-              child: new Row(
+              child: new Column(
+                children: <Widget>[
+                      new Center(
+                        child: new Padding(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                          child: new Text('点击拍照，长按拍摄视频', style: TextStyle(color: Colors.white)),
+                        )
+                        ,
+                      )
+                      ,
+                      new Row(
                 children: <Widget>[
                   Expanded(
                     child: new Align(
@@ -108,38 +118,38 @@ class _WxCameraPageState extends State<WxCameraPage> {
                   ),
                   Expanded(
                     child: new Align(
-                      alignment: Alignment.center,
-                      child: new CircleRecordButton(
-                        radius: 42,
-                        controller: (state) {
-                          switch (state) {
-                            case RecordState.Start:
-                              {
-                                debugPrint('开始..........');
-                                break;
-                              }
-                            case RecordState.StartRecord:
-                              {
-                                debugPrint('开始录视频。。。。。');
-                                this.onStartRecordPressed();
-                                break;
-                              }
-                            case RecordState.End:
-                              {
-                                debugPrint('结束。。。。。。。。。。');
-                                if (this.state == RecordState.Start) {
-                                  this.onTakePhotoPressed();
-                                } else if (this.state ==
-                                    RecordState.StartRecord) {
-                                  this.onEndRecordPressed();
+                            alignment: Alignment.center,
+                            child: new CircleRecordButton(
+                              radius: 36,
+                              controller: (state) {
+                                switch (state) {
+                                  case RecordState.Start:
+                                    {
+                                      debugPrint('开始..........');
+                                      break;
+                                    }
+                                  case RecordState.StartRecord:
+                                    {
+                                      debugPrint('开始录视频。。。。。');
+                                      this.onStartRecordPressed();
+                                      break;
+                                    }
+                                  case RecordState.End:
+                                    {
+                                      debugPrint('结束。。。。。。。。。。');
+                                      if (this.state == RecordState.Start) {
+                                        this.onTakePhotoPressed();
+                                      } else if (this.state ==
+                                          RecordState.StartRecord) {
+                                        this.onEndRecordPressed();
+                                      }
+                                      break;
+                                    }
                                 }
-                                break;
-                              }
-                          }
-                          this.state = state;
-                        },
-                      ),
-                    ),
+                                this.state = state;
+                              },
+                            ),
+                          ),
                     flex: 1,
                   ),
                   Expanded(
@@ -148,6 +158,8 @@ class _WxCameraPageState extends State<WxCameraPage> {
                     ),
                     flex: 1,
                   )
+                ],
+              )
                 ],
               ),
               flex: 1,
@@ -263,7 +275,7 @@ class _WxCameraPageState extends State<WxCameraPage> {
       Fluttertoast.showToast(msg: '没有找到摄像头！', timeInSecForIos: 1);
       return;
     }
-    controller = CameraController(des, ResolutionPreset.medium);
+    controller = CameraController(des, ResolutionPreset.high);
     try{
       await controller.initialize();
     } on CameraException catch (e) {
