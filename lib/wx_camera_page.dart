@@ -237,8 +237,6 @@ class _WxCameraPageState extends State<WxCameraPage> {
       return null;
     }
     final Directory extDir = await getApplicationDocumentsDirectory();
-    // final String dirPath = '${extDir.path}/Pictures/flutter_test';
-    // await Directory(dirPath).create(recursive: true);
     final String filePath = '${extDir.path}/photo_${timestamp()}.jpg';
 
     if (controller.value.isTakingPicture) {
@@ -299,7 +297,6 @@ class _WxCameraPageState extends State<WxCameraPage> {
   }
 
   void _close() {
-    //Navigator.pop(context);
     if (widget.controller!=null) {
       widget.controller('close', '');
     }

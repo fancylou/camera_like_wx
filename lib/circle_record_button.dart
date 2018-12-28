@@ -89,8 +89,8 @@ class _CircleRecordButtonState extends State<CircleRecordButton>
     return GestureDetector(
       onTapDown: _tapDown,
       onTapUp: _tapUp,
-      onTapCancel: _tapCancel,
-      onTap: _tap,
+      // onTapCancel: _tapCancel,
+      // onTap: _tap,
       child: CustomPaint(
         key: paintKey,
         size: size,
@@ -105,7 +105,6 @@ class _CircleRecordButtonState extends State<CircleRecordButton>
   }
 
   void _tapDown(TapDownDetails down) {
-    debugPrint('tapDown.................');
     transAc.forward();
     if (widget.controller != null) {
       widget.controller(RecordState.Start);
@@ -113,7 +112,6 @@ class _CircleRecordButtonState extends State<CircleRecordButton>
   }
 
   void _tapUp(TapUpDetails up) {
-    debugPrint('_tapUp.................');
     //重置按钮 会同时执行stop
     transAc.value = 0;
     ac.value = 0;
@@ -122,13 +120,13 @@ class _CircleRecordButtonState extends State<CircleRecordButton>
     }
   }
 
-  void _tap() {
-    debugPrint('_tap.................');
-  }
+  // void _tap() {
+  //   debugPrint('_tap.................');
+  // }
 
-  void _tapCancel() {
-    debugPrint('_tapCancel.................');
-  }
+  // void _tapCancel() {
+  //   debugPrint('_tapCancel.................');
+  // }
 }
 
 class CircleRecordPainter extends CustomPainter {

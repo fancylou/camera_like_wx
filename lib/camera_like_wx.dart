@@ -13,10 +13,15 @@ class CameraLikeWx {
     final String version = await _channel.invokeMethod('getPlatformVersion');
     return version;
   }
+
+  static Future<String> open(BuildContext context) async {
+    final String filePath = await Navigator.push(context,
+     MaterialPageRoute(builder: (context) => WxCameraBaseWidget()
+    ));
+    return filePath;
+  }
+
 }
-
-
-
 
 
 // 拍摄页面 拍照结果页面 摄像结果页面
@@ -56,7 +61,6 @@ class _WxCameraBaseState extends State<WxCameraBaseWidget> {
       return new WxTakeVideoPage(callback: (result) => takeVideo(result), videoPath: videoPath);
     }
     return new WxCameraPage(controller: (operate, filePath) {
-      debugPrint('operate:' + operate.toString());
       if (operate == "photo") {
         imagePath = filePath;
         changePage(WxCameraPageState.ShowPhotoPage);
@@ -64,15 +68,14 @@ class _WxCameraBaseState extends State<WxCameraBaseWidget> {
         videoPath = filePath;
         changePage(WxCameraPageState.ShowVideoPage);
       }else {
-        close();
+        close('');
       }
     });
   }
 
   void takePhoto(result) {
-    debugPrint('拍摄了照片了。。。。' + result.toString());
     if (result) {
-      close();
+      close(imagePath);
     } else {
       changePage(WxCameraPageState.CameraPage);
       imagePath = '';
@@ -80,17 +83,16 @@ class _WxCameraBaseState extends State<WxCameraBaseWidget> {
   }
 
   void takeVideo(result) {
-    debugPrint('拍摄了视频拉。。。。' + result.toString());
     if (result) {
-      close();
+      close(videoPath);
     } else {
       changePage(WxCameraPageState.CameraPage);
       videoPath = '';
     }
   }
 
-  void close() {
-    Navigator.pop(context);
+  void close(String filePath) {
+    Navigator.pop(context, filePath);
   }
 }
 

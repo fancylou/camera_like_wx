@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:camera_like_wx/camera_like_wx.dart';
@@ -9,7 +8,7 @@ import 'package:camera_like_wx/camera_like_wx.dart';
 void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
     .then((_) {
-      runApp(MyApp());
+      runApp(MaterialApp(home: MyApp()));
     });
 } 
 
@@ -19,55 +18,39 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    try {
-      platformVersion = await CameraLikeWx.platformVersion;
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
-  }
-
+  String _returnFilePath = '';
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: const Text('Plugin example app'),
-          actions: <Widget>[
-            new Builder(builder: (BuildContext context){
-              return IconButton(
-                icon: const Icon(Icons.camera), 
-                onPressed: () => this._go2Camera(context)
-                );
-            })
-          ],
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: Container(
+            height: 200,
+            child: Column(
+              children: <Widget>[
+                Text('返回结果: $_returnFilePath\n'), 
+                RaisedButton(
+                  color: Colors.blue,
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Icon(Icons.camera, color: Colors.white, size: 36),
+                  ),
+                  onPressed: () => this._openCamera(context))
+              ],
+            ),
+          )
         ),
-      ),
     );
   }
 
-  void _go2Camera(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(
-        builder: (context) => WxCameraBaseWidget()
-    ));
+  void _openCamera(BuildContext context) {
+    CameraLikeWx.open(context).then((filePath){
+      debugPrint(filePath);
+      _returnFilePath = filePath;
+      setState(() {});
+    });
   }
 }
 

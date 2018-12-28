@@ -75,12 +75,10 @@ class _WxTakePhotoPageState extends State<WxTakePhotoPage> {
   }
 
   void _restore() {
-    debugPrint('restore..............');
     widget.callback(false);
   }
 
   void _takePhoto() {
-    debugPrint('takePhoto...........');
     widget.callback(true);
   }
 }

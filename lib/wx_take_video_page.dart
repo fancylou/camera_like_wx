@@ -60,12 +60,10 @@ class WxTakeVideoPage extends StatelessWidget {
   }
 
   void _restore() {
-    debugPrint('restore..............');
     callback(false);
   }
 
   void _takeVideo() {
-    debugPrint('takeVideo...........');
     callback(true);
   }
 }
@@ -93,7 +91,6 @@ class _RecordedVideoState extends State<RecordedVideoWidget> {
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {
-          debugPrint('play..............');
           _controller.play();
         });
       });
@@ -102,7 +99,6 @@ class _RecordedVideoState extends State<RecordedVideoWidget> {
 
   @override
   void dispose() {
-    debugPrint('Video player dispose................');
     _controller.dispose();
     super.dispose();
   }
@@ -111,11 +107,9 @@ class _RecordedVideoState extends State<RecordedVideoWidget> {
   Widget build(BuildContext context) {
     double asr = 0;
     if (_controller.value.initialized) {
-      debugPrint('aspectRatio:'+_controller.value.aspectRatio.toString());
       final double height = MediaQuery.of(context).size.height;
       final double width = MediaQuery.of(context).size.width;
       asr = width / height;
-      debugPrint('screen: '+asr.toString());
     }
     
     return _controller.value.initialized

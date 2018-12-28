@@ -1,6 +1,6 @@
 name: camera_like_wx
-description: A new flutter plugin project.
-version: 0.0.1
+description: 仿微信拍照的一个功能控件，点击拍照，长按拍视频。
+version: 0.1.0
 author:
 homepage:
 
@@ -12,7 +12,8 @@ dependencies:
     sdk: flutter
   # camera: ^0.2.6
   camera:
-    path: /Users/fancy/Flutter/camera-0.2.6/
+    git: 
+      url: git://github.com/fancylou/flutter_camera.git
   video_player: ^0.8.0
   path_provider: ^0.4.1
   fluttertoast: ^2.2.2
@@ -22,8 +23,7 @@ dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-  assets:
-    - assets/test.jpg
+
   # This section identifies this Flutter project as a plugin project.
   # The androidPackage and pluginClass identifiers should not ordinarily
   # be modified. They are used by the tooling to maintain consistency when
