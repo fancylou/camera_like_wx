@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'wx_page_flow_delegate.dart';
+import 'dart:io';
 import 'package:video_player/video_player.dart';
 
-
+import 'wx_page_flow_delegate.dart';
 
 
 class WxTakeVideoPage extends StatelessWidget {
   final callback;
-  const WxTakeVideoPage({this.callback});
+  final String videoPath;
+  const WxTakeVideoPage({this.callback, this.videoPath});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class WxTakeVideoPage extends StatelessWidget {
       delegate: new CameraFlowDelegate(),
       children: <Widget>[ 
         new Container(
-          child: new RecordedVideoWidget(videoPath: 'http://img.muliba.net/VID_20180520_173444.mp4',),
+          child: new RecordedVideoWidget(videoPath: videoPath,),
         ),
         new Align(
         alignment: Alignment.bottomCenter,
@@ -87,7 +88,7 @@ class _RecordedVideoState extends State<RecordedVideoWidget> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.videoPath)
+    _controller = VideoPlayerController.file(new File(widget.videoPath))
       ..setLooping(true)
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.

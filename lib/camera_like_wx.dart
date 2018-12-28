@@ -53,7 +53,7 @@ class _WxCameraBaseState extends State<WxCameraBaseWidget> {
     if (page == WxCameraPageState.ShowPhotoPage) {
       return new WxTakePhotoPage(callback: (result) => takePhoto(result), photoPath:imagePath);
     } else if (page == WxCameraPageState.ShowVideoPage) {
-      return new WxTakeVideoPage(callback: (result) => takeVideo(result));
+      return new WxTakeVideoPage(callback: (result) => takeVideo(result), videoPath: videoPath);
     }
     return new WxCameraPage(controller: (operate, filePath) {
       debugPrint('operate:' + operate.toString());
@@ -61,6 +61,7 @@ class _WxCameraBaseState extends State<WxCameraBaseWidget> {
         imagePath = filePath;
         changePage(WxCameraPageState.ShowPhotoPage);
       } else if (operate == 'video') {
+        videoPath = filePath;
         changePage(WxCameraPageState.ShowVideoPage);
       }else {
         close();
@@ -74,6 +75,7 @@ class _WxCameraBaseState extends State<WxCameraBaseWidget> {
       close();
     } else {
       changePage(WxCameraPageState.CameraPage);
+      imagePath = '';
     }
   }
 
@@ -83,6 +85,7 @@ class _WxCameraBaseState extends State<WxCameraBaseWidget> {
       close();
     } else {
       changePage(WxCameraPageState.CameraPage);
+      videoPath = '';
     }
   }
 

@@ -31,6 +31,7 @@ class _WxCameraPageState extends State<WxCameraPage> {
   List<CameraDescription> cameras;
   CameraController controller;
   CameraLensDirection direction;
+  String tempVideoPath = "";
 
   @override
   void initState() {
@@ -56,8 +57,6 @@ class _WxCameraPageState extends State<WxCameraPage> {
       delegate: new CameraFlowDelegate(),
     );
   }
-
-  
 
   // 摄像头界面
   Widget buildCamera(BuildContext context) {
@@ -122,6 +121,7 @@ class _WxCameraPageState extends State<WxCameraPage> {
                             case RecordState.StartRecord:
                               {
                                 debugPrint('开始录视频。。。。。');
+                                this.onStartRecordPressed();
                                 break;
                               }
                             case RecordState.End:
@@ -131,9 +131,7 @@ class _WxCameraPageState extends State<WxCameraPage> {
                                   this.onTakePhotoPressed();
                                 } else if (this.state ==
                                     RecordState.StartRecord) {
-                                  if (widget.controller != null) {
-                                    widget.controller('video', '');
-                                  }
+                                  this.onEndRecordPressed();
                                 }
                                 break;
                               }
@@ -161,13 +159,63 @@ class _WxCameraPageState extends State<WxCameraPage> {
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
   
   void onTakePhotoPressed() {
-    takePicture().then((filePath){
+    takePicture().then( (filePath) {
+      debugPrint('拍照。。：'+filePath);
       if(filePath != null && widget.controller != null) {
           widget.controller('photo', filePath);
       }else {
         debugPrint('没有拍摄到照片。。。。。。。。');
       }
     });
+  }
+  void onStartRecordPressed() {
+    startRecord().then((filePath){
+      debugPrint('开始拍摄视频。。。。:'+filePath);
+    });
+  }
+
+  void onEndRecordPressed() {
+    endRecord().then( (call) {
+      if (widget.controller != null && tempVideoPath != '') {
+        widget.controller('video', tempVideoPath);
+      }else {
+        debugPrint('视频拍摄未完成。。。');
+      }
+    });
+    
+  }
+
+  Future<String> startRecord() async {
+    if (!controller.value.isInitialized) {
+      Fluttertoast.showToast(msg: '摄像头没有准备好！', timeInSecForIos: 1);
+      return null;
+    }
+    final Directory extDir = await getApplicationDocumentsDirectory();
+    final String filePath = '${extDir.path}/video_${timestamp()}.mp4';
+    if (controller.value.isRecordingVideo) {
+      return null;
+    }
+    try {
+      tempVideoPath = filePath;
+      await controller.startVideoRecording(filePath);
+    } on CameraException catch (e) {
+      Fluttertoast.showToast(msg: '拍摄视频异常,' + e.description, timeInSecForIos: 1);
+      tempVideoPath = '';
+      return null;
+    }
+    return filePath;
+  }
+
+  Future<void> endRecord() async {
+    if (!controller.value.isRecordingVideo) {
+      return null;
+    }
+    try {
+      await controller.stopVideoRecording();
+    } on CameraException catch (e) {
+      debugPrint('stopVideoRecording 异常：'+e.description);
+      return null;
+    }
   }
 
   // 拍照
@@ -179,7 +227,7 @@ class _WxCameraPageState extends State<WxCameraPage> {
     final Directory extDir = await getApplicationDocumentsDirectory();
     // final String dirPath = '${extDir.path}/Pictures/flutter_test';
     // await Directory(dirPath).create(recursive: true);
-    final String filePath = '${extDir.path}/${timestamp()}.jpg';
+    final String filePath = '${extDir.path}/photo_${timestamp()}.jpg';
 
     if (controller.value.isTakingPicture) {
       return null;
